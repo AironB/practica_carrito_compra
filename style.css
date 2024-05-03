@@ -1,0 +1,19 @@
+.logo{
+    width: 15%;
+}
+
+.precio{
+    background-color: #c7c57d;
+    width: 50px;
+    padding: 5px;
+    border-radius: 30px;
+}
+
+.button-carrito{
+    background-color: #f46669;
+    border: none;
+}
+
+.button-carrito:hover{
+    background-color: #c94b4d;
+}
