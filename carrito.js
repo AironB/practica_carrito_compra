@@ -15,6 +15,8 @@ function cargarEventos ( ){
 
     //Llamar a funcion agregarCurso, el evento esta atento al contenedor main
     listadoCursos.addEventListener('click', agregarCurso);
+    //llamamos al evento de escucha para que este atento al contenedor de la tabla
+    carrito.addEventListener('click', eliminarcurso);
 }
 function agregarCurso(e){
     //cancela la accion que esta predeterminada a un elemento
@@ -36,9 +38,9 @@ function agregarCurso(e){
         e.target.classList.add('disabled');
 
         //enviamos una alerta para el usuario
-         Swal.fire({
-            icon: 'Success',
-            title: 'Agregado correctamente',
+        Swal.fire({
+            icon: "success",
+            title: "Agregado correctamente",
             showConfirmButton: false,
             timer: 900
         });
@@ -89,14 +91,14 @@ function carritoHTML(){
             "${curso.precio}"
         </td>
         <td>
-            <a href="#" class="borra-curso" data-id=${curso.id}>Eliminar
+            <a href="#" class="borra-curso" data-id="${curso.id}">Eliminar
             item</a>
         </td>
         `;
         bodyCarrito.appendChild(fila);
         total += formatear_precio;
     })
-    limpiarCarritoBody(foo);
+    limpiarCarritoBody(footerCarrito);
     const fila_total_foot = document.createElement('tr');
     fila_total_foot.innerHTML = `
             <td colspan="3">Total a pagar</td>
@@ -116,4 +118,40 @@ function limpiarCarritoBody(elemento){
 //     while(footerCarrito.firstChild){
 //         footerCarrito.removeChild(footerCarrito.firstChild)
 //     }
-// }
+// }bo
+//Metodo para eliminar un curso por su id
+function eliminarcurso(e){
+    if(e.target.classList.contains('borra-curso')){
+        //imprimir el id
+        const cursoId = e.target.getAttribute('data-id');
+        const habilitarBoton = document.querySelector(`.button-carrito[data-id="${cursoId}"]`);
+       // console.log(habilitarBoton);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                arregloCarrito = arregloCarrito.filter(curso => curso.id !==cursoId);
+        
+                Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+                        });
+                if (habilitarBoton){
+                    habilitarBoton.classList.remove('disabled');
+                }
+            carritoHTML();
+            }
+        });
+
+
+        
+        
+    }
+}
